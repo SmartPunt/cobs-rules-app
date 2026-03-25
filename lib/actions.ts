@@ -6,18 +6,31 @@ import { getCurrentProfile } from "@/lib/auth";
 
 async function requireAdmin() {
   const profile = await getCurrentProfile();
+
   if (!profile || profile.role !== "admin" || profile.status !== "active") {
     throw new Error("Unauthorized");
   }
+
   return profile;
 }
 
-export async function signInAction(_: { error: string | null }, formData: FormData) {
+export async function signInAction(
+  _: { error: string | null },
+  formData: FormData,
+) {
   const email = String(formData.get("email") ?? "");
   const password = String(formData.get("password") ?? "");
   const supabase = await createClient();
-  const { error } = await supabase.auth.signInWithPassword({ email, password });
-  if (error) return { error: error.message };
+
+  const { error } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
+
+  if (error) {
+    return { error: error.message };
+  }
+
   revalidatePath("/", "layout");
   return { error: null };
 }
@@ -28,9 +41,10 @@ export async function signOutAction() {
   revalidatePath("/", "layout");
 }
 
-export async function upsertSuggestedTip(formData: FormData) {
+export async function upsertSuggestedTip(formData: FormData): Promise<void> {
   const profile = await requireAdmin();
   const id = String(formData.get("id") ?? "");
+
   const payload = {
     race: String(formData.get("race") ?? ""),
     horse: String(formData.get("horse") ?? ""),
@@ -43,29 +57,41 @@ export async function upsertSuggestedTip(formData: FormData) {
   };
 
   const supabase = await createClient();
+
   const query = id
     ? supabase.from("suggested_tips").update(payload).eq("id", Number(id))
     : supabase.from("suggested_tips").insert(payload);
 
   const { error } = await query;
-  if (error) return { error: error.message };
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
   revalidatePath("/");
-  return { error: null };
 }
 
-export async function deleteSuggestedTipAction(formData: FormData) {
+export async function deleteSuggestedTipAction(formData: FormData): Promise<void> {
   await requireAdmin();
   const id = Number(formData.get("id"));
   const supabase = await createClient();
-  const { error } = await supabase.from("suggested_tips").delete().eq("id", id);
-  if (error) return { error: error.message };
+
+  const { error } = await supabase
+    .from("suggested_tips")
+    .delete()
+    .eq("id", id);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
   revalidatePath("/");
-  return { error: null };
 }
 
-export async function upsertWatchItem(formData: FormData) {
+export async function upsertWatchItem(formData: FormData): Promise<void> {
   const profile = await requireAdmin();
   const id = String(formData.get("id") ?? "");
+
   const payload = {
     race: String(formData.get("race") ?? ""),
     horse: String(formData.get("horse") ?? ""),
@@ -76,29 +102,41 @@ export async function upsertWatchItem(formData: FormData) {
   };
 
   const supabase = await createClient();
+
   const query = id
     ? supabase.from("watchlist_items").update(payload).eq("id", Number(id))
     : supabase.from("watchlist_items").insert(payload);
 
   const { error } = await query;
-  if (error) return { error: error.message };
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
   revalidatePath("/");
-  return { error: null };
 }
 
-export async function deleteWatchItemAction(formData: FormData) {
+export async function deleteWatchItemAction(formData: FormData): Promise<void> {
   await requireAdmin();
   const id = Number(formData.get("id"));
   const supabase = await createClient();
-  const { error } = await supabase.from("watchlist_items").delete().eq("id", id);
-  if (error) return { error: error.message };
+
+  const { error } = await supabase
+    .from("watchlist_items")
+    .delete()
+    .eq("id", id);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
   revalidatePath("/");
-  return { error: null };
 }
 
-export async function upsertLongTermBet(formData: FormData) {
+export async function upsertLongTermBet(formData: FormData): Promise<void> {
   const profile = await requireAdmin();
   const id = String(formData.get("id") ?? "");
+
   const payload = {
     title: String(formData.get("title") ?? ""),
     horse: String(formData.get("horse") ?? ""),
@@ -110,22 +148,33 @@ export async function upsertLongTermBet(formData: FormData) {
   };
 
   const supabase = await createClient();
+
   const query = id
     ? supabase.from("long_term_bets").update(payload).eq("id", Number(id))
     : supabase.from("long_term_bets").insert(payload);
 
   const { error } = await query;
-  if (error) return { error: error.message };
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
   revalidatePath("/");
-  return { error: null };
 }
 
-export async function deleteLongTermBetAction(formData: FormData) {
+export async function deleteLongTermBetAction(formData: FormData): Promise<void> {
   await requireAdmin();
   const id = Number(formData.get("id"));
   const supabase = await createClient();
-  const { error } = await supabase.from("long_term_bets").delete().eq("id", id);
-  if (error) return { error: error.message };
+
+  const { error } = await supabase
+    .from("long_term_bets")
+    .delete()
+    .eq("id", id);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
   revalidatePath("/");
-  return { error: null };
 }
