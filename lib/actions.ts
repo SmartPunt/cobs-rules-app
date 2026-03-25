@@ -30,7 +30,7 @@ export async function signOutAction() {
 
 export async function upsertSuggestedTip(formData: FormData) {
   const profile = await requireAdmin();
-  const id = formData.get("id");
+  const id = String(formData.get("id") ?? "");
   const payload = {
     race: String(formData.get("race") ?? ""),
     horse: String(formData.get("horse") ?? ""),
@@ -41,16 +41,21 @@ export async function upsertSuggestedTip(formData: FormData) {
     created_by: profile.id,
     updated_at: new Date().toISOString(),
   };
+
   const supabase = await createClient();
-  const query = id ? supabase.from("suggested_tips").update(payload).eq("id", Number(id)) : supabase.from("suggested_tips").insert(payload);
+  const query = id
+    ? supabase.from("suggested_tips").update(payload).eq("id", Number(id))
+    : supabase.from("suggested_tips").insert(payload);
+
   const { error } = await query;
   if (error) return { error: error.message };
   revalidatePath("/");
   return { error: null };
 }
 
-export async function deleteSuggestedTip(id: number) {
+export async function deleteSuggestedTipAction(formData: FormData) {
   await requireAdmin();
+  const id = Number(formData.get("id"));
   const supabase = await createClient();
   const { error } = await supabase.from("suggested_tips").delete().eq("id", id);
   if (error) return { error: error.message };
@@ -60,7 +65,7 @@ export async function deleteSuggestedTip(id: number) {
 
 export async function upsertWatchItem(formData: FormData) {
   const profile = await requireAdmin();
-  const id = formData.get("id");
+  const id = String(formData.get("id") ?? "");
   const payload = {
     race: String(formData.get("race") ?? ""),
     horse: String(formData.get("horse") ?? ""),
@@ -69,16 +74,21 @@ export async function upsertWatchItem(formData: FormData) {
     created_by: profile.id,
     updated_at: new Date().toISOString(),
   };
+
   const supabase = await createClient();
-  const query = id ? supabase.from("watchlist_items").update(payload).eq("id", Number(id)) : supabase.from("watchlist_items").insert(payload);
+  const query = id
+    ? supabase.from("watchlist_items").update(payload).eq("id", Number(id))
+    : supabase.from("watchlist_items").insert(payload);
+
   const { error } = await query;
   if (error) return { error: error.message };
   revalidatePath("/");
   return { error: null };
 }
 
-export async function deleteWatchItem(id: number) {
+export async function deleteWatchItemAction(formData: FormData) {
   await requireAdmin();
+  const id = Number(formData.get("id"));
   const supabase = await createClient();
   const { error } = await supabase.from("watchlist_items").delete().eq("id", id);
   if (error) return { error: error.message };
@@ -88,7 +98,7 @@ export async function deleteWatchItem(id: number) {
 
 export async function upsertLongTermBet(formData: FormData) {
   const profile = await requireAdmin();
-  const id = formData.get("id");
+  const id = String(formData.get("id") ?? "");
   const payload = {
     title: String(formData.get("title") ?? ""),
     horse: String(formData.get("horse") ?? ""),
@@ -98,16 +108,21 @@ export async function upsertLongTermBet(formData: FormData) {
     created_by: profile.id,
     updated_at: new Date().toISOString(),
   };
+
   const supabase = await createClient();
-  const query = id ? supabase.from("long_term_bets").update(payload).eq("id", Number(id)) : supabase.from("long_term_bets").insert(payload);
+  const query = id
+    ? supabase.from("long_term_bets").update(payload).eq("id", Number(id))
+    : supabase.from("long_term_bets").insert(payload);
+
   const { error } = await query;
   if (error) return { error: error.message };
   revalidatePath("/");
   return { error: null };
 }
 
-export async function deleteLongTermBet(id: number) {
+export async function deleteLongTermBetAction(formData: FormData) {
   await requireAdmin();
+  const id = Number(formData.get("id"));
   const supabase = await createClient();
   const { error } = await supabase.from("long_term_bets").delete().eq("id", id);
   if (error) return { error: error.message };

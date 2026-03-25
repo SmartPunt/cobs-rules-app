@@ -30,18 +30,103 @@ export default function SubscriberDashboard({
           </div>
           <div className="mt-4 flex gap-3 lg:mt-0">
             <Badge tone="green">Live updates on</Badge>
-            <form action={signOutAction}><button className="rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700">Log out</button></form>
+            <form action={signOutAction}>
+              <button className="rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700">Log out</button>
+            </form>
           </div>
         </div>
 
         <div className="space-y-8">
-          <div><h2 className="text-2xl font-semibold text-slate-900">Suggested Tips</h2><p className="text-sm text-slate-500">This is the punter-facing experience. No backend controls are visible to subscribers.</p></div>
+          <div>
+            <h2 className="text-2xl font-semibold text-slate-900">Suggested Tips</h2>
+            <p className="text-sm text-slate-500">This is the punter-facing experience. No backend controls are visible to subscribers.</p>
+          </div>
 
-          <Panel><div className="p-5"><div className="flex items-center justify-between gap-4"><div><h3 className="text-lg font-semibold">Suggested tips of the day</h3><p className="text-sm text-slate-500">Win, place, and all up plays.</p></div><Badge tone="green">{suggestedTips.length} live</Badge></div><div className="mt-4 grid gap-4 lg:grid-cols-2">{suggestedTips.map((tip: any) => <div key={tip.id} className="rounded-3xl border border-slate-200 p-4"><div className="flex items-start justify-between gap-4"><div><p className="text-sm text-slate-500">{tip.race}</p><h3 className="text-xl font-semibold">{tip.horse}</h3></div><TipPill type={tip.type} /></div><div className="mt-3 flex flex-wrap gap-2"><Badge>{tip.confidence} confidence</Badge><Badge tone="amber">{tip.note}</Badge></div><p className="mt-4 text-sm text-slate-600">{tip.commentary}</p></div>)}</div></div></Panel>
+          <Panel>
+            <div className="p-5">
+              <div className="flex items-center justify-between gap-4">
+                <div>
+                  <h3 className="text-lg font-semibold">Suggested tips of the day</h3>
+                  <p className="text-sm text-slate-500">Win, place, and all up plays.</p>
+                </div>
+                <Badge tone="green">{suggestedTips.length} live</Badge>
+              </div>
+              <div className="mt-4 grid gap-4 lg:grid-cols-2">
+                {suggestedTips.map((tip: any) => (
+                  <div key={tip.id} className="rounded-3xl border border-slate-200 p-4">
+                    <div className="flex items-start justify-between gap-4">
+                      <div>
+                        <p className="text-sm text-slate-500">{tip.race}</p>
+                        <h3 className="text-xl font-semibold">{tip.horse}</h3>
+                      </div>
+                      <TipPill type={tip.type} />
+                    </div>
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      <Badge>{tip.confidence} confidence</Badge>
+                      <Badge tone="amber">{tip.note}</Badge>
+                    </div>
+                    <p className="mt-4 text-sm text-slate-600">{tip.commentary}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </Panel>
 
-          <Panel><div className="p-5"><div className="flex items-center justify-between gap-4"><div><h3 className="text-lg font-semibold">Horses / races to watch</h3><p className="text-sm text-slate-500">Watchlist notes and commentary.</p></div><Badge tone="amber">{watchlistItems.length} live</Badge></div><div className="mt-4 grid gap-4 lg:grid-cols-2">{watchlistItems.map((item: any) => <div key={item.id} className="rounded-3xl border border-slate-200 p-4"><div className="flex items-start justify-between gap-4"><div><p className="text-sm text-slate-500">{item.race || "Watchlist"}</p><h3 className="text-xl font-semibold">{item.horse || "Race note"}</h3></div><TipPill type={item.label} /></div><p className="mt-4 text-sm text-slate-600">{item.commentary || ""}</p></div>)}</div></div></Panel>
+          <Panel>
+            <div className="p-5">
+              <div className="flex items-center justify-between gap-4">
+                <div>
+                  <h3 className="text-lg font-semibold">Horses / races to watch</h3>
+                  <p className="text-sm text-slate-500">Watchlist notes and commentary.</p>
+                </div>
+                <Badge tone="amber">{watchlistItems.length} live</Badge>
+              </div>
+              <div className="mt-4 grid gap-4 lg:grid-cols-2">
+                {watchlistItems.map((item: any) => (
+                  <div key={item.id} className="rounded-3xl border border-slate-200 p-4">
+                    <div className="flex items-start justify-between gap-4">
+                      <div>
+                        <p className="text-sm text-slate-500">{item.race || "Watchlist"}</p>
+                        <h3 className="text-xl font-semibold">{item.horse || "Race note"}</h3>
+                      </div>
+                      <TipPill type={item.label} />
+                    </div>
+                    <p className="mt-4 text-sm text-slate-600">{item.commentary || ""}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </Panel>
 
-          <Panel><div className="p-5"><div className="flex items-center justify-between gap-4"><div><h3 className="text-lg font-semibold">Long-term bets</h3><p className="text-sm text-slate-500">Future and longer-range plays.</p></div><Badge tone="rose">{longTermBets.length} live</Badge></div><div className="mt-4 grid gap-4 lg:grid-cols-2">{longTermBets.map((item: any) => <div key={item.id} className="rounded-3xl border border-slate-200 p-4"><div className="flex items-start justify-between gap-4"><div><p className="text-sm text-slate-500">{item.title}</p><h3 className="text-xl font-semibold">{item.horse}</h3></div><TipPill type="Long Term" /></div><div className="mt-3 flex flex-wrap gap-2"><Badge tone="rose">{item.bet_type}</Badge>{item.odds ? <Badge>{item.odds}</Badge> : null}</div><p className="mt-4 text-sm text-slate-600">{item.commentary || ""}</p></div>)}</div></div></Panel>
+          <Panel>
+            <div className="p-5">
+              <div className="flex items-center justify-between gap-4">
+                <div>
+                  <h3 className="text-lg font-semibold">Long-term bets</h3>
+                  <p className="text-sm text-slate-500">Future and longer-range plays.</p>
+                </div>
+                <Badge tone="rose">{longTermBets.length} live</Badge>
+              </div>
+              <div className="mt-4 grid gap-4 lg:grid-cols-2">
+                {longTermBets.map((item: any) => (
+                  <div key={item.id} className="rounded-3xl border border-slate-200 p-4">
+                    <div className="flex items-start justify-between gap-4">
+                      <div>
+                        <p className="text-sm text-slate-500">{item.title}</p>
+                        <h3 className="text-xl font-semibold">{item.horse}</h3>
+                      </div>
+                      <TipPill type="Long Term" />
+                    </div>
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      <Badge tone="rose">{item.bet_type}</Badge>
+                      {item.odds ? <Badge>{item.odds}</Badge> : null}
+                    </div>
+                    <p className="mt-4 text-sm text-slate-600">{item.commentary || ""}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </Panel>
         </div>
       </div>
     </div>

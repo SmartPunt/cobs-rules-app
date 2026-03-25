@@ -35,7 +35,9 @@ export default function LoginPage() {
               <input name="password" type="password" className="mt-2 w-full rounded-2xl border border-slate-200 px-3 py-2 outline-none" />
             </div>
 
-            <button type="submit" className="rounded-2xl bg-slate-900 px-4 py-2 text-sm font-medium text-white">{pending ? "Signing in..." : "Login to private trial"}</button>
+            <button type="submit" className="rounded-2xl bg-slate-900 px-4 py-2 text-sm font-medium text-white">
+              {pending ? "Signing in..." : "Login to private trial"}
+            </button>
 
             {state.error ? <div className="rounded-2xl bg-red-50 p-4 text-sm text-red-700">{state.error}</div> : null}
           </form>
