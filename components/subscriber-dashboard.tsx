@@ -31,7 +31,9 @@ export default function SubscriberDashboard({
           <div className="mt-4 flex gap-3 lg:mt-0">
             <Badge tone="green">Live updates on</Badge>
             <form action={signOutAction}>
-              <button className="rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700">Log out</button>
+              <button className="rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700">
+                Log out
+              </button>
             </form>
           </div>
         </div>
@@ -39,7 +41,9 @@ export default function SubscriberDashboard({
         <div className="space-y-8">
           <div>
             <h2 className="text-2xl font-semibold text-slate-900">Suggested Tips</h2>
-            <p className="text-sm text-slate-500">This is the punter-facing experience. No backend controls are visible to subscribers.</p>
+            <p className="text-sm text-slate-500">
+              This is the punter-facing experience. No backend controls are visible to subscribers.
+            </p>
           </div>
 
           <Panel>
